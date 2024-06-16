@@ -1,6 +1,6 @@
 # MMO_Client_Unity
-### 루키스 서버 강의
-#### 서버 : https://github.com/goliot/Cs_Server_Study
+## 루키스 서버 강의
+### 서버 : https://github.com/goliot/Cs_Server_Study
 
 ---
 ### 0616
