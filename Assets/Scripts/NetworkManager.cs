@@ -9,6 +9,11 @@ using UnityEngine;
 public class NetworkManager : MonoBehaviour
 {
     ServerSession _session = new ServerSession();
+    
+    public void Send(ArraySegment<byte> sendBuff)
+    {
+        _session.Send(sendBuff);
+    }
 
     void Start()
     {
@@ -22,30 +27,14 @@ public class NetworkManager : MonoBehaviour
         connector.Connect(endPoint,
             () => { return _session; },
             1);
-
-        StartCoroutine(CoSendPacket());
     }
 
     void Update()
     {
-        IPacket packet = PacketQueue.Instance.Pop();
-        if(packet != null)
+        List<IPacket> list = PacketQueue.Instance.PopAll();
+        foreach (IPacket packet in list)
         {
             PacketManager.Instance.HandlePacket(_session, packet);
-        }
-    }
-
-    IEnumerator CoSendPacket()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(1f);
-
-            C_Chat chatPacket = new C_Chat();
-            chatPacket.chat = "Hello Unity!";
-            ArraySegment<byte> segment = chatPacket.Write();
-
-            _session.Send(segment);
         }
     }
 }
