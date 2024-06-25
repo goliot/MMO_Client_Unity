@@ -12,6 +12,9 @@
   - MapManager.cs
 - 플레이어, 몬스터 등 모든 생명체의 움직임을 상속하기 위한 상위 컨트롤러 정의
   - CreatureController.cs
+ 
+https://goliot-coding.tistory.com/61  
+https://goliot-coding.tistory.com/62
 
 ---
 ### 0622
