@@ -1,5 +1,6 @@
 # MMO_Client_Unity
 ## 루키스 서버 강의
+https://www.inflearn.com/course/%EC%9C%A0%EB%8B%88%ED%8B%B0-mmorpg-%EA%B0%9C%EB%B0%9C-part7
 ### 서버 : https://github.com/goliot/Cs_Server_Study
 ---
 ### 0625
