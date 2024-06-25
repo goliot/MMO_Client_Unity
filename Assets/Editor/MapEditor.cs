@@ -22,20 +22,21 @@ public class MapEditor : MonoBehaviour
 
         foreach (GameObject go in gameObjects)
         {
+            Tilemap tmBase = Util.FindChild<Tilemap>(go, "Tilemap_Base", true);
             Tilemap tm = Util.FindChild<Tilemap>(go, "Tilemap_Collision", true);
 
             // min, max 좌표를 받고
             // 00010101001 같이 관리
             using (var writer = File.CreateText($"Assets/Resources/Map/{go.name}.txt"))
             {
-                writer.WriteLine(tm.cellBounds.xMin);
-                writer.WriteLine(tm.cellBounds.xMax);
-                writer.WriteLine(tm.cellBounds.yMin);
-                writer.WriteLine(tm.cellBounds.yMax);
+                writer.WriteLine(tmBase.cellBounds.xMin);
+                writer.WriteLine(tmBase.cellBounds.xMax - 1);
+                writer.WriteLine(tmBase.cellBounds.yMin);
+                writer.WriteLine(tmBase.cellBounds.yMax - 1);
 
-                for (int y = tm.cellBounds.yMax; y >= tm.cellBounds.yMin; y--)
+                for (int y = tmBase.cellBounds.yMax - 1; y >= tmBase.cellBounds.yMin; y--)
                 {
-                    for (int x = tm.cellBounds.xMin; x <= tm.cellBounds.xMax; x++)
+                    for (int x = tmBase.cellBounds.xMin; x <= tmBase.cellBounds.xMax - 1; x++)
                     {
                         TileBase tile = tm.GetTile(new Vector3Int(x, y, 0));
                         if (tile != null)
