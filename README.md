@@ -4,6 +4,10 @@ https://www.inflearn.com/course/%EC%9C%A0%EB%8B%88%ED%8B%B0-mmorpg-%EA%B0%9C%EB%
 ---
 ### 서버 : https://github.com/goliot/Cs_Server_Study
 ---
+### 0626
+- 오브젝트끼리의 충돌 판정을 관리하기 위한 위치 정보를 관리하는 ObjectManager
+  - ObjectManager.cs
+---
 ### 0625
 - 만들어둔 모든 맵에서 통과 가능 지점, 불가능 지점의 정보를 배열로 가진 .txt 파일 생성 툴 추가
   - MapEditor.cs
