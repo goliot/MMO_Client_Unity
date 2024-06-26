@@ -7,7 +7,7 @@ public class CreatureController : MonoBehaviour
 {
     public float _speed = 5.0f;
 
-    protected Vector3Int _cellPos = Vector3Int.zero; // 자신의 셀 위치
+    public Vector3Int CellPos { get; set; } = Vector3Int.zero;
     protected Animator _animator;
     protected SpriteRenderer _sprite;
 
@@ -113,7 +113,7 @@ public class CreatureController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
-        Vector3 pos = Managers.Map.CurrentGrid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.5f);
+        Vector3 pos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f);
         transform.position = pos;
     }
 
@@ -129,7 +129,7 @@ public class CreatureController : MonoBehaviour
         if (State != CreatureState.Moving)
             return;
 
-        Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.5f);
+        Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f);
         Vector3 moveDir = destPos - transform.position;
 
         // 도착 여부 체크
@@ -155,7 +155,7 @@ public class CreatureController : MonoBehaviour
     {
         if (State == CreatureState.Idle && _dir != MoveDir.None)
         {
-            Vector3Int destPos = _cellPos;
+            Vector3Int destPos = CellPos;
 
             switch (_dir)
             {
@@ -172,11 +172,14 @@ public class CreatureController : MonoBehaviour
                     destPos += Vector3Int.right;
                     break;
             }
+            State = CreatureState.Moving;
 
             if (Managers.Map.CanGo(destPos))
             {
-                _cellPos = destPos;
-                State = CreatureState.Moving;
+                if (Managers.Object.Find(destPos) == null) // 해당 위치에 다른 오브젝트가 있는지 검사
+                {
+                    CellPos = destPos;
+                }
             }
         }
     }
