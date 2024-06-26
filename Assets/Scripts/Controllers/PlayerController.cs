@@ -150,7 +150,9 @@ public class PlayerController : CreatureController
         GameObject go = Managers.Object.Find(GetFrontCellPos());
         if(go != null)
         {
-            Debug.Log(go.name);
+            CreatureController cc = go.GetComponent<CreatureController>();
+            if (cc != null)
+                cc.OnDamaged();
         }
 
         _rangedSkill = false;
