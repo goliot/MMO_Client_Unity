@@ -7,6 +7,7 @@ public class MonsterController : CreatureController
 {
     Coroutine _coPatrol;
     Coroutine _coSearch;
+    Coroutine _coSkill;
 
     [SerializeField]
     Vector3Int _destCellPos;
@@ -15,7 +16,13 @@ public class MonsterController : CreatureController
     GameObject _target;
 
     [SerializeField]
-    float _searchRange = 5.0f;
+    float _searchRange = 10.0f;
+
+    [SerializeField]
+    float _skillRange = 1.0f;
+
+    [SerializeField]
+    bool _rangedSkill = false;
 
     public virtual CreatureState State
     {
@@ -48,6 +55,12 @@ public class MonsterController : CreatureController
         Dir = MoveDir.None;
 
         _speed = 3.0f;
+        _rangedSkill = (Random.Range(0, 2) == 0 ? true : false);
+
+        if (_rangedSkill)
+            _skillRange = 10.0f;
+        else
+            _skillRange = 1.0f;
     }
 
     protected override void UpdateController()
@@ -77,10 +90,24 @@ public class MonsterController : CreatureController
         if(_target != null)
         {
             destPos = _target.GetComponent<CreatureController>().CellPos;
+
+            Vector3Int dir = destPos - CellPos;
+            if(dir.magnitude <= _skillRange && (dir.x == 0 || dir.y == 0))
+            {
+                Dir = GetDirFromVec(dir);
+                State = CreatureState.Skill;
+
+                if (!_rangedSkill)
+                    _coSkill = StartCoroutine(CoStartPunch());
+                else
+                    _coSkill = StartCoroutine(CoStartShootArrow());
+
+                return;
+            }
         }
 
         List<Vector3Int> path = Managers.Map.FindPath(CellPos, destPos, ignoreDestCollision: true);
-        if(path.Count < 2 || (_target != null && path.Count > 10)) //길을 못 찾거나, 너무 멀어진 경우
+        if(path.Count < 2 || (_target != null && path.Count > 20)) //길을 못 찾거나, 너무 멀어진 경우
         {
             _target = null;
             State = CreatureState.Idle;
@@ -90,16 +117,7 @@ public class MonsterController : CreatureController
         Vector3Int nextPos = path[1]; // 0번은 내 위치
         Vector3Int moveCellDir = nextPos - CellPos;
 
-        if (moveCellDir.x > 0)
-            Dir = MoveDir.Right;
-        else if (moveCellDir.x < 0)
-            Dir = MoveDir.Left;
-        else if (moveCellDir.y > 0)
-            Dir = MoveDir.Up;
-        else if (moveCellDir.y < 0)
-            Dir = MoveDir.Down;
-        else
-            Dir = MoveDir.None;
+        Dir = GetDirFromVec(moveCellDir);
 
         if (Managers.Map.CanGo(nextPos) && Managers.Object.Find(nextPos) == null)
         {
@@ -168,5 +186,32 @@ public class MonsterController : CreatureController
                 return true;
             });
         }
+    }
+    IEnumerator CoStartPunch()
+    {
+        // 피격 판정
+        GameObject go = Managers.Object.Find(GetFrontCellPos());
+        if (go != null)
+        {
+            CreatureController cc = go.GetComponent<CreatureController>();
+            if (cc != null)
+                cc.OnDamaged();
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        State = CreatureState.Moving;
+        _coSkill = null;
+    }
+
+    IEnumerator CoStartShootArrow()
+    {
+        GameObject go = Managers.Resource.Instantiate("Creature/Arrow");
+        ArrowController ac = go.GetComponent<ArrowController>();
+        ac.Dir = _lastDir;
+        ac.CellPos = CellPos;
+
+        yield return new WaitForSeconds(0.3f);
+        State = CreatureState.Moving;
+        _coSkill = null;
     }
 }
