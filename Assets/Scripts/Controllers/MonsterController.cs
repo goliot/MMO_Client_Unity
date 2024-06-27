@@ -5,6 +5,27 @@ using static Define;
 
 public class MonsterController : CreatureController
 {
+    Coroutine _coPatrol;
+    Vector3Int _destCellPos;
+
+    public virtual CreatureState State
+    {
+        get { return _state; }
+        set
+        {
+            if (_state == value)
+                return;
+
+            base.State = value;
+
+            if (_coPatrol != null)
+            {
+                StopCoroutine(_coPatrol);
+                _coPatrol = null;
+            }
+        }
+    }
+
     protected override void Init()
     {
         base.Init();
@@ -18,28 +39,57 @@ public class MonsterController : CreatureController
         base.UpdateController();
     }
 
-    // 키보드 입력으로 방향 설정
-    void GetDirInput()
+    protected override void UpdateIdle()
     {
-        if (Input.GetKey(KeyCode.W))
+        base.UpdateIdle();
+
+        if(_coPatrol == null)
         {
-            Dir = MoveDir.Up;
+            _coPatrol = StartCoroutine(CoPatrol());
         }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            Dir = MoveDir.Down;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            Dir = MoveDir.Left;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
+    }
+
+    protected override void MoveToNextPos()
+    {
+        Vector3Int moveCellDir = _destCellPos - CellPos;
+
+        // TODO : Astar
+        if (moveCellDir.x > 0)
             Dir = MoveDir.Right;
+        else if (moveCellDir.x < 0)
+            Dir = MoveDir.Left;
+        else if (moveCellDir.y > 0)
+            Dir = MoveDir.Up;
+        else if (moveCellDir.y < 0)
+            Dir = MoveDir.Down;
+        else
+            Dir = MoveDir.None;
+
+        Vector3Int destPos = CellPos;
+
+        switch (_dir)
+        {
+            case MoveDir.Up:
+                destPos += Vector3Int.up;
+                break;
+            case MoveDir.Down:
+                destPos += Vector3Int.down;
+                break;
+            case MoveDir.Left:
+                destPos += Vector3Int.left;
+                break;
+            case MoveDir.Right:
+                destPos += Vector3Int.right;
+                break;
+        }
+
+        if (Managers.Map.CanGo(destPos) && Managers.Object.Find(destPos) == null)
+        {
+            CellPos = destPos;
         }
         else
         {
-            Dir = MoveDir.None;
+            State = CreatureState.Idle;
         }
     }
 
@@ -52,5 +102,29 @@ public class MonsterController : CreatureController
 
         Managers.Object.Remove(gameObject);
         Managers.Resource.Destroy(gameObject);
+    }
+
+    // 패트롤
+    IEnumerator CoPatrol()
+    {
+        int waitSeconds = Random.Range(1, 4);
+        yield return new WaitForSeconds(waitSeconds);
+
+        for(int i=0; i<10; i++)
+        {
+            int xRange = Random.Range(-5, 6);
+            int yRange = Random.Range(-5, 6);
+            Vector3Int randPos = CellPos + new Vector3Int(xRange, yRange, 0);
+
+            if(Managers.Map.CanGo(randPos) && Managers.Object.Find(randPos) == null)
+            {
+                _destCellPos = randPos;
+                State = CreatureState.Moving;
+                yield break;
+            }
+        }
+
+        // 이동 가능한 셀을 못찾은 경우
+        State = CreatureState.Idle;
     }
 }
