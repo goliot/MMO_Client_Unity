@@ -4,6 +4,15 @@ https://www.inflearn.com/course/%EC%9C%A0%EB%8B%88%ED%8B%B0-mmorpg-%EA%B0%9C%EB%
 ---
 ### 서버 : https://github.com/goliot/Cs_Server_Study
 ---
+### 0627
+- 몬스터 AI 부여
+  - 순찰
+    - MonsterController.cs
+  - 추적 (Astar)
+    - MapManager.cs, PriorityQueue.cs, ObjectManager.cs
+  - 공격
+    - MonsterController.cs
+---
 ### 0626
 - 오브젝트끼리의 충돌 판정을 관리하기 위한 위치 정보를 관리하는 ObjectManager
   - ObjectManager.cs
