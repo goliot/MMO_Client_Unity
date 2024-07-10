@@ -8,10 +8,10 @@ public class ObjectManager
 {
 	public MyPlayerController MyPlayer { get; set; }
 	Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
-
+	
 	public void Add(PlayerInfo info, bool myPlayer = false)
 	{
-		if(myPlayer)
+		if (myPlayer)
 		{
 			GameObject go = Managers.Resource.Instantiate("Creature/MyPlayer");
 			go.name = info.Name;
@@ -19,18 +19,18 @@ public class ObjectManager
 
 			MyPlayer = go.GetComponent<MyPlayerController>();
 			MyPlayer.Id = info.PlayerId;
-			MyPlayer.CellPos = new Vector3Int(info.PosX, info.PosY, 0);
+			MyPlayer.PosInfo = info.PosInfo;
 		}
 		else
 		{
-            GameObject go = Managers.Resource.Instantiate("Creature/Player");
-            go.name = info.Name;
-            _objects.Add(info.PlayerId, go);
+			GameObject go = Managers.Resource.Instantiate("Creature/Player");
+			go.name = info.Name;
+			_objects.Add(info.PlayerId, go);
 
 			PlayerController pc = go.GetComponent<PlayerController>();
 			pc.Id = info.PlayerId;
-			pc.CellPos = new Vector3Int(info.PosX, info.PosY, 0);
-        }
+			pc.PosInfo = info.PosInfo;
+		}
 	}
 
 	public void Add(int id, GameObject go)
@@ -50,6 +50,13 @@ public class ObjectManager
 
 		Remove(MyPlayer.Id);
 		MyPlayer = null;
+	}
+
+	public GameObject FindById(int id)
+	{
+		GameObject go = null;
+		_objects.TryGetValue(id, out go);
+		return go;
 	}
 
 	public GameObject Find(Vector3Int cellPos)

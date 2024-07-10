@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Right
+  m_Name: WALK_RIGHT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -33,7 +33,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Front
+  m_Name: WALK_FRONT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -59,7 +59,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Weapon_Right
+  m_Name: ATTACK_WEAPON_RIGHT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -85,7 +85,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Front
+  m_Name: ATTACK_FRONT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -166,7 +166,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Weapon_Front
+  m_Name: ATTACK_WEAPON_FRONT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -192,7 +192,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Front
+  m_Name: IDLE_FRONT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -218,7 +218,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Right
+  m_Name: ATTACK_RIGHT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -266,7 +266,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Weapon_Back
+  m_Name: ATTACK_WEAPON_BACK
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -292,7 +292,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Right
+  m_Name: IDLE_RIGHT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -318,7 +318,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Back
+  m_Name: ATTACK_BACK
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -344,7 +344,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Back
+  m_Name: IDLE_BACK
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -370,7 +370,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Back
+  m_Name: WALK_BACK
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

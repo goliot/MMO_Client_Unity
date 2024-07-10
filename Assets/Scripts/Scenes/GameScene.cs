@@ -14,6 +14,8 @@ public class GameScene : BaseScene
 
         Screen.SetResolution(640, 480, false);
 
+        Application.runInBackground = true;
+
         //GameObject player = Managers.Resource.Instantiate("Creature/Player");
         //player.name = "Player";
         //Managers.Object.Add(player);
